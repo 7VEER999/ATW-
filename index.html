@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATW Shift Reporter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F0EFE9;--card:#FFFFFF;--fg:#1B2840;--pri:#1B2840;--pf:#FFFFFF;--mut:#E4E3DC;--mf:#6B7A8D;--bd:#D4D2CA;--ok:#15803D;--okf:#FFFFFF;--warn:#D97706;--warnf:#FFFFFF;--r:12px;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1421;--card:#1B2840;--fg:#EEF0F5;--pri:#F59E0B;--pf:#1B2840;--mut:#243050;--mf:#8896AB;--bd:#2D3E5C;--ok:#22C55E;--okf:#1B2840;--warn:#F59E0B;--warnf:#1B2840;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D1421;--card:#1B2840;--fg:#EEF0F5;--pri:#F59E0B;--pf:#1B2840;--mut:#243050;--mf:#8896AB;--bd:#2D3E5C;--ok:#22C55E;--okf:#1B2840;--warn:#F59E0B;--warnf:#1B2840;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.35 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--pri);z-index:10}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none;padding:0}
+svg{flex:none}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--pri);color:var(--pf)}
+.in{max-width:560px;margin:0 auto;padding:12px 20px 18px}
+h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.5px}
+.bar p{margin:2px 0 0;font-size:14px;opacity:.75}
+.nav .in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 16px}
+.nav b{font-size:17px;font-weight:600}
+.back{display:flex;align-items:center;font-size:17px;justify-self:start}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 40px;display:flex;flex-direction:column;gap:14px}
+#cards{display:flex;flex-direction:column;gap:14px}
+.lab{font-size:11px;font-weight:600;letter-spacing:1.2px;color:var(--mf)}
+.hrow{display:flex;align-items:center;gap:10px;margin-top:10px}
+.st{width:46px;height:46px;background:var(--pri);color:var(--pf);border-radius:var(--r);display:grid;place-items:center}
+.hd{flex:1;background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:11px 0;text-align:center;font-size:22px;font-weight:700}
+.pw{display:flex;gap:2px;padding:3px;background:var(--mut);border-radius:var(--r)}
+.pw button{padding:9px 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--mf)}
+.pw .on{background:var(--pri);color:var(--pf)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:14px}
+.ch{display:flex;align-items:center;justify-content:space-between}
+.ch h2{margin:0;font-size:18px;font-weight:700}
+.pill{border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;background:var(--ok);color:var(--okf)}
+.pill.w{background:var(--warn);color:var(--warnf)}
+.ir{display:flex;gap:10px}
+.ig{flex:1;display:flex;flex-direction:column;gap:6px}
+.ig>span{font-size:12px;font-weight:500;color:var(--mf)}
+.dv{width:1px;margin:22px 0;background:var(--bd)}
+input,textarea{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:12px}
+.num{font-size:24px;font-weight:700;text-align:center}
+::placeholder{color:var(--mf)}
+.rw{display:flex;flex-direction:column;gap:6px}
+.rl{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--warn)}
+.rt{border:1.5px solid var(--warn);min-height:60px;padding:10px 12px;font-size:15px;resize:vertical}
+.gen,.eb{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--pri);color:var(--pf);border-radius:var(--r);font-size:16px;font-weight:700}
+.eb{padding:15px;background:var(--card);border:1.5px solid var(--pri);color:var(--pri)}
+.sums{display:flex;gap:10px}
+.sm{flex:1;background:var(--card);border:1px solid var(--bd);border-top:3px solid var(--ok);border-radius:var(--r);padding:12px;text-align:center;display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mf)}
+.sm.w{border-top-color:var(--warn)}
+.sm i{font-style:normal;font-size:11px;font-weight:600;letter-spacing:.8px}
+.sm b{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1.2;margin:2px 0;color:var(--ok)}
+.sm.w b{color:var(--warn)}
+.rc{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.rh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bd);font-size:14px;font-weight:600}
+.lnk{display:flex;align-items:center;gap:5px;color:var(--pri);font-size:14px;font-weight:600}
+pre{margin:0;padding:16px;font:14px/22px ui-monospace,"Courier New",monospace;white-space:pre-wrap;user-select:text}
+.tb{display:flex;align-items:center;gap:8px;padding:12px;background:var(--mut);border-radius:var(--r);font-size:14px;font-weight:500;color:var(--mf)}
+.sv{display:flex;align-items:center;gap:7px;padding:10px 12px;background:var(--ok);color:var(--okf);border-radius:var(--r);font-size:13px;font-weight:600}
+.eh{display:flex;justify-content:space-between;align-items:flex-start}
+.eh h2{margin:0;font-size:18px;font-weight:700}
+.eh p{margin:3px 0 0;font-size:12px;color:var(--mf)}
+.eh button{color:var(--mf)}
+#ed .hrow{margin:0;gap:8px}
+#ed .st{width:42px;height:42px}
+#ed .hd{min-width:78px;font-size:19px;padding:9px 0}
+#ed .pw button{padding:8px 10px;font-size:12px}
+.ea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:10px}
+.ea .ch h2{font-size:15px}
+.ea .pill{font-size:11px;padding:4px 9px}
+.ea .ir{gap:8px}
+.ea .num{font-size:19px;padding:10px;background:var(--card)}
+.ea .rt{min-height:52px;font-size:14px;padding:9px 10px;border:1px solid var(--bd);background:var(--card)}
+.ea .rt.w{border-color:var(--warn)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;z-index:20;padding:24px}
+.dlg{background:var(--card);border-radius:14px;padding:20px;max-width:300px;width:100%;text-align:center}
+.dlg h3{margin:0 0 6px;font-size:17px;font-weight:600}
+.dlg p{margin:0 0 16px;font-size:14px;color:var(--mf)}
+.dlg button{width:100%;padding:12px;border-radius:10px;background:var(--pri);color:var(--pf);font-weight:600}
+:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="bar" id="bh"><div class="in"><h1>ATW Report</h1><p id="hs"></p></div></div>
+<div class="bar nav" id="br" hidden><div class="in"><button class="back" id="bk" data-ic="back" data-s="24">Back</button><b>Shift Report</b><span></span></div></div>
+
+<main class="wrap" id="home">
+  <section>
+    <div class="lab">SHIFT HOUR</div>
+    <div class="hrow">
+      <button class="st" id="dec" aria-label="Previous hour" data-ic="minus" data-s="22"></button>
+      <div class="hd" id="hd"></div>
+      <button class="st" id="inc" aria-label="Next hour" data-ic="plus" data-s="22"></button>
+      <div class="pw" id="pw"><button data-p="AM">AM</button><button data-p="PM">PM</button></div>
+    </div>
+  </section>
+  <div id="cards"></div>
+  <button class="gen" id="gen" data-ic="doc">Generate Report</button>
+</main>
+
+<main class="wrap" id="report" hidden>
+  <div class="sums" id="sums"></div>
+  <div class="rc">
+    <div class="rh"><span>Formatted Output</span><button class="lnk" id="s1" data-ic="share" data-s="18">Share</button></div>
+    <pre id="out"></pre>
+  </div>
+  <div class="tb" id="tb"></div>
+  <div class="sv" id="sm" hidden data-ic="check" data-s="17"><span>Changes saved successfully</span></div>
+  <div class="card" id="ed" hidden></div>
+  <button class="eb" id="eb" data-ic="edit">Edit Last Result</button>
+  <button class="gen" id="s2" data-ic="share">Share Report</button>
+</main>
+
+<div class="ov" id="dlg" role="alertdialog" aria-labelledby="dt" aria-describedby="dm" hidden>
+  <div class="dlg"><h3 id="dt"></h3><p id="dm"></p><button id="dok">OK</button></div>
+</div>
+
+<script>
+const P={minus:'<path d="M5 12h14"/>',plus:'<path d="M12 5v14M5 12h14"/>',doc:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',warn:'<path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17v.5"/>',share:'<path d="M12 15V3M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',back:'<path d="m15 5-7 7 7 7"/>'};
+const ic=(k,s=20)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k]}</svg>`;
+document.querySelectorAll('[data-ic]').forEach(e=>e.insertAdjacentHTML('afterbegin',ic(e.dataset.ic,+e.dataset.s||20)));
+
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),flip=p=>p==='AM'?'PM':'AM';
+const res=v=>v===''?null:Math.round(parseInt(v,10)/12);
+const pn=v=>pad(parseInt(v,10)||0);
+const blank=()=>{const h=new Date().getHours();return{hour:h%12||12,period:h<12?'AM':'PM',atws:[0,1,2].map(()=>({ok:'',ng:'',reason:''}))}};
+const clone=s=>({hour:s.hour,period:s.period,atws:s.atws.map(a=>({...a}))});
+const endH=s=>s.hour===12?1:s.hour+1,endP=s=>s.hour===11?flip(s.period):s.period;
+const span=s=>`${s.hour}:00 \u2013 ${endH(s)}:00 ${endP(s)}`;
+const step=(s,d)=>{if(d>0){if(s.hour===11)s.period=flip(s.period);s.hour=s.hour===12?1:s.hour+1}else{if(s.hour===12)s.period=flip(s.period);s.hour=s.hour===1?12:s.hour-1}};
+let S=blank(),R=null,D=null;
+
+function text(s){
+  const L=['Output/hours',` ${s.hour}:00 -${endH(s)}:00 ${endP(s)}`];
+  s.atws.forEach((a,i)=>L.push(`ATW ${i+1} - ${res(a.ok)??0} (NG - ${pn(a.ng)} string)`));
+  const rs=s.atws.map((a,i)=>[i,a.reason.trim()]).filter(x=>x[1]);
+  if(rs.length){L.push('Reason-');rs.forEach(([i,r])=>L.push(`ATW ${i+1} ${r}`))}
+  return L.join('\n');
+}
+function alertBox(t,m){$('#dt').textContent=t;$('#dm').textContent=m;$('#dlg').hidden=false;$('#dok').focus()}
+$('#dok').onclick=()=>$('#dlg').hidden=true;
+
+/* Home screen */
+$('#cards').innerHTML=[1,2,3].map(n=>`<section class="card"><div class="ch"><h2>ATW ${n}</h2><span class="pill" hidden></span></div><div class="ir"><label class="ig"><span>OK Strings</span><input class="num" data-f="ok" inputmode="numeric" maxlength="6" placeholder="0" autocomplete="off"></label><div class="dv"></div><label class="ig"><span>NG Strings</span><input class="num" data-f="ng" inputmode="numeric" maxlength="4" placeholder="00" autocomplete="off"></label></div><div class="rw" hidden><div class="rl">${ic('warn',14)}<span>Result below 35 \u2014 enter reason</span></div><textarea class="rt" data-f="reason" placeholder="Enter reason\u2026"></textarea></div></section>`).join('');
+function paint(i){
+  const c=$('#cards').children[i],r=res(S.atws[i].ok),w=r!==null&&r<35,p=c.querySelector('.pill');
+  p.hidden=r===null;p.textContent='Result: '+r;p.className='pill'+(w?' w':'');
+  c.querySelector('.rw').hidden=!w;
+}
+function fill(){
+  $('#hd').textContent=S.hour+':00';$('#hs').textContent=span(S);
+  document.querySelectorAll('#pw button').forEach(b=>b.classList.toggle('on',b.dataset.p===S.period));
+  [...$('#cards').children].forEach((c,i)=>{c.querySelectorAll('[data-f]').forEach(x=>x.value=S.atws[i][x.dataset.f]);paint(i)});
+}
+$('#cards').addEventListener('input',e=>{
+  const t=e.target,f=t.dataset.f;if(!f)return;
+  const c=t.closest('.card'),i=[...$('#cards').children].indexOf(c),a=S.atws[i];
+  if(f!=='reason')t.value=t.value.replace(/\D/g,'');
+  a[f]=t.value;
+  const r=res(a.ok);
+  if(f!=='reason'&&(r===null||r>=35)){a.reason='';c.querySelector('textarea').value=''}
+  paint(i);
+});
+$('#dec').onclick=()=>{step(S,-1);fill()};
+$('#inc').onclick=()=>{step(S,1);fill()};
+$('#pw').onclick=e=>{const b=e.target.closest('button');if(b){S.period=b.dataset.p;fill()}};
+$('#gen').onclick=()=>{
+  for(let i=0;i<3;i++){
+    const a=S.atws[i];
+    if(a.ok.trim()===''||a.ng.trim()==='')return alertBox('Missing Data',`Please enter OK and NG string counts for ATW ${i+1}.`);
+    const r=res(a.ok);
+    if(r<35&&!a.reason.trim())return alertBox('Reason Required',`ATW ${i+1} result is ${r} (below 35). Please enter a reason.`);
+  }
+  R=clone(S);$('#sm').hidden=true;closeEd();show(true);
+};
+
+/* Report screen */
+function show(rep){
+  $('#home').hidden=$('#bh').hidden=rep;
+  $('#report').hidden=$('#br').hidden=!rep;
+  if(rep)drawReport();else fill();
+  scrollTo(0,0);
+}
+function drawReport(){
+  $('#sums').innerHTML=R.atws.map((a,i)=>{const r=res(a.ok)??0;return`<div class="sm${r<35?' w':''}"><i>ATW ${i+1}</i><b>${r}</b><span>NG ${pn(a.ng)}</span><span>OK ${a.ok}</span></div>`}).join('');
+  $('#out').textContent=text(R);
+  $('#tb').innerHTML=ic('clock',15)+`<span>Shift ${span(R)}</span>`;
+}
+$('#bk').onclick=()=>show(false);
+async function share(){
+  const t=text(R);
+  try{if(navigator.share){await navigator.share({title:'ATW Shift Report',text:t});return}}catch(e){if(e.name==='AbortError')return}
+  let ok=false;
+  try{await navigator.clipboard.writeText(t);ok=true}
+  catch(_){
+    const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();
+    try{ok=document.execCommand('copy')}catch(_){}
+    a.remove();
+  }
+  if(ok)alertBox('Copied','The report was copied to your clipboard.');
+  else alertBox('Error','Could not share the report. Press and hold the report text to copy it.');
+}
+$('#s1').onclick=$('#s2').onclick=share;
+
+/* Edit last result */
+function closeEd(){$('#ed').hidden=true;$('#eb').hidden=false}
+function buildEd(){
+  $('#ed').innerHTML=`<div class="eh"><div><h2>Edit Last Result</h2><p>Update values, timing, or reasons</p></div><button id="xc" aria-label="Close editor">${ic('x',22)}</button></div><div><div class="lab">SHIFT TIME</div><div class="hrow"><button class="st" id="ed1" aria-label="Previous hour">${ic('minus',22)}</button><div class="hd" id="edh"></div><button class="st" id="ed2" aria-label="Next hour">${ic('plus',22)}</button><div class="pw" id="epw"><button data-p="AM">AM</button><button data-p="PM">PM</button></div></div></div>`
+  +D.atws.map((a,i)=>`<div class="ea"><div class="ch"><h2>ATW ${i+1}</h2><span class="pill"></span></div><div class="ir"><label class="ig"><span>OK Strings</span><input class="num" data-f="ok" inputmode="numeric" maxlength="6" placeholder="0" value="${a.ok}"></label><label class="ig"><span>NG Strings</span><input class="num" data-f="ng" inputmode="numeric" maxlength="4" placeholder="00" value="${a.ng}"></label></div><div class="rw"><div class="rl"></div><textarea class="rt" data-f="reason" placeholder="Enter reason\u2026"></textarea></div></div>`).join('')
+  +`<button class="gen" id="sv">${ic('check')}Save Changes</button>`;
+  $('#ed').querySelectorAll('.ea textarea').forEach((t,i)=>t.value=D.atws[i].reason);
+}
+function paintEd(){
+  $('#edh').textContent=D.hour+':00';
+  document.querySelectorAll('#epw button').forEach(b=>b.classList.toggle('on',b.dataset.p===D.period));
+  $('#ed').querySelectorAll('.ea').forEach((e,i)=>{
+    const r=res(D.atws[i].ok)??0,w=r<35,p=e.querySelector('.pill'),l=e.querySelector('.rl');
+    p.textContent='Result '+r;p.className='pill'+(w?' w':'');
+    l.innerHTML=ic('chat',14)+`<span>Reason ${w?'(required below 35)':'(optional)'}</span>`;
+    l.style.color=w?'var(--warn)':'var(--mf)';
+    e.querySelector('textarea').classList.toggle('w',w);
+  });
+}
+function saveEd(){
+  for(let i=0;i<3;i++){
+    const a=D.atws[i];
+    if(a.ok.trim()===''||a.ng.trim()==='')return alertBox('Invalid Input',`Please enter valid OK and NG counts for ATW ${i+1}.`);
+    if(res(a.ok)<35&&!a.reason.trim())return alertBox('Reason Required',`Please enter a reason for ATW ${i+1}.`);
+  }
+  R=clone(D);closeEd();drawReport();$('#sm').hidden=false;
+}
+$('#eb').onclick=()=>{$('#sm').hidden=true;D=clone(R);buildEd();paintEd();$('#ed').hidden=false;$('#eb').hidden=true};
+$('#ed').addEventListener('input',e=>{
+  const t=e.target,f=t.dataset.f;if(!f)return;
+  const i=[...$('#ed').querySelectorAll('.ea')].indexOf(t.closest('.ea'));
+  if(f!=='reason')t.value=t.value.replace(/\D/g,'');
+  D.atws[i][f]=t.value;paintEd();
+});
+$('#ed').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.id==='ed1'){step(D,-1);paintEd()}
+  else if(b.id==='ed2'){step(D,1);paintEd()}
+  else if(b.dataset.p){D.period=b.dataset.p;paintEd()}
+  else if(b.id==='xc')closeEd();
+  else if(b.id==='sv')saveEd();
+});
+
+fill();
+</script>
+</body>
+</html>
